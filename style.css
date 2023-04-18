@@ -1,5 +1,26 @@
+:root {
+    --size: 500px;
+}
+
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box;    /* the width and height will be fully represented the content */
+    /* if border-box means the width and height = content + border */
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    width: var(--size);
+    height: var(--size);
+    border: 5px solid red;
+}
+
+.grid {
+    border: 0.1px solid lightgrey;
+}
+
+.colored {
+    background-color: black;
 }
