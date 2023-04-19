@@ -10,8 +10,24 @@
 </head>
 <body>
     <div>
-        <input type="range" id="gridSize" name="grid-size" min="1" max="244" value="16">
-        <label for="grid-size"></label>
+        <div class="grid-size">
+            <input type="range" id="gridSize" name="grid-size" min="1" max="64" value="16">
+            <label for="grid-size"></label>
+        </div>
+        <div class="color">
+            <div></div>
+            <input type="color" id="color" value="#000000">
+            <label for="color">Color</label>
+            <button class="rainbow">Rainbow Mood</button>
+        </div>
+        <div class="grid-tools">
+            <button class="grid-border">Show Grid</button>
+            <button class="ruler">Show Ruler</button>
+        </div>
+        <div class="clean">
+            <button class="eraser">Eraser</button>
+            <button class="clear">Clear</button>
+        </div>
     </div>
     <div class="container"></div>
 </body>
