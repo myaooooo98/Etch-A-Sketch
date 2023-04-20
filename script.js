@@ -43,6 +43,33 @@ function createGrid(e){
 }
 
 
+// obtain the color 
+const colorChosen = document.querySelector('#color');
+let currentColor = colorChosen.value;
+
+colorChosen.addEventListener('change', (e) => {
+    currentColor = e.target.value;
+});
+
+
+// if rainbow mood is chosen
+const rainbow = document.querySelector('.rainbow');
+let isRainbow = false;
+let hue= 0;
+
+rainbow.addEventListener('click', () => {
+    isRainbow = !isRainbow;
+    if (isRainbow) {
+        rainbow.classList.add('active');
+    } else {
+        rainbow.classList.remove('active');
+    }
+});
+
+function getRainbowColor(hue) {
+    return `hsl(${hue}, 100%, 50%)`;
+}
+
 // when the grid is click, add color to it
 function draw() {
     const grids = document.querySelectorAll('.grid');
@@ -52,7 +79,11 @@ function draw() {
         // when mousedown, start to color the grid
         grid.addEventListener('mousedown', (e) => {
             isDrawing = true;
-            e.target.classList.add('colored');
+            if (isRainbow) {
+                e.target.style.backgroundColor = getRainbowColor(hue);
+            } else {
+                e.target.style.backgroundColor = currentColor;
+            }
         });
     
         // stop to color when mouse up
@@ -61,19 +92,29 @@ function draw() {
         // change the color of grid when mouse hover to the div and mousedown
         grid.addEventListener('mousemove', (e) => {
             if (isDrawing) {
-                e.target.classList.add('colored');
+                if (isRainbow) {
+                    e.target.style.backgroundColor = getRainbowColor(hue);
+                    hue = (hue + 10) % 360;
+                } else {
+                    e.target.style.backgroundColor = currentColor;
+                }
             }
         });
     });
 }
 
+// active border of the grid
+const border = document.querySelector('.grid-border');
+let isBorder = false;
 
-// obtain the color (incomplete)
-// const colorChosen = document.querySelector('#color');
-// const coloredGrids = document.querySelectorAll('.colored');
-
-// colorChosen.addEventListener('change', (e) => {
-//     coloredGrids.forEach(colored => {
-//         colored.style.backgroundColor = e.target.value;
-//     });
-// });
+border.addEventListener('click', () => {
+    isBorder = !isBorder;
+    const grids = document.querySelectorAll('.grid');
+    grids.forEach(grid => {
+        if (isBorder) {
+            grid.classList.add('border');
+        } else {
+            grid.classList.remove('border');
+        }
+    })
+});
