@@ -116,5 +116,19 @@ border.addEventListener('click', () => {
         } else {
             grid.classList.remove('border');
         }
-    })
+    });
+});
+
+// clear feature
+const clear = document.querySelector('.clear');
+let isCleared = false;
+
+clear.addEventListener('click', () => {
+    isCleared = !isCleared;
+    const grids = document.querySelectorAll('.grid');
+    grids.forEach(grid => {
+        if (isCleared) {
+            grid.style.backgroundColor = '';
+        }
+    });
 });
