@@ -45,10 +45,17 @@ function createGrid(e){
 
 // obtain the color 
 const colorChosen = document.querySelector('#color');
+const defaultMood = document.querySelector('.default');
 let currentColor = colorChosen.value;
+let isDefault = false;
 
 colorChosen.addEventListener('change', (e) => {
     currentColor = e.target.value;
+});
+
+defaultMood.addEventListener('click', (e) => {
+    isDefault = toggleBtn(isDefault, e.target);
+    currentColor = '#000000';
 });
 
 
@@ -57,12 +64,11 @@ const rainbow = document.querySelector('.rainbow');
 let isRainbow = false;
 let hue= 0;
 
-rainbow.addEventListener('click', () => {
-    isRainbow = !isRainbow;
-    if (isRainbow) {
-        rainbow.classList.add('active');
-    } else {
-        rainbow.classList.remove('active');
+rainbow.addEventListener('click', (e) => {
+    isRainbow = toggleBtn(isRainbow, e.target);
+    if (isErased && isRainbow) {
+        isErased = false;
+        eraser.classList.toggle('active');
     }
 });
 
@@ -84,6 +90,9 @@ function draw() {
             } else {
                 e.target.style.backgroundColor = currentColor;
             }
+            if (isErased) {
+                e.target.style.backgroundColor = '';
+            }
         });
     
         // stop to color when mouse up
@@ -98,6 +107,9 @@ function draw() {
                 } else {
                     e.target.style.backgroundColor = currentColor;
                 }
+                if (isErased) {
+                    e.target.style.backgroundColor = '';
+                }
             }
         });
     });
@@ -107,8 +119,8 @@ function draw() {
 const border = document.querySelector('.grid-border');
 let isBorder = false;
 
-border.addEventListener('click', () => {
-    isBorder = !isBorder;
+border.addEventListener('click', (e) => {
+    isBorder = toggleBtn(isBorder, e.target)
     const grids = document.querySelectorAll('.grid');
     grids.forEach(grid => {
         if (isBorder) {
@@ -121,14 +133,23 @@ border.addEventListener('click', () => {
 
 // clear feature
 const clear = document.querySelector('.clear');
-let isCleared = false;
 
 clear.addEventListener('click', () => {
-    isCleared = !isCleared;
     const grids = document.querySelectorAll('.grid');
     grids.forEach(grid => {
-        if (isCleared) {
-            grid.style.backgroundColor = '';
-        }
+        grid.style.backgroundColor = '';
     });
+});
+
+function toggleBtn(bool, e) {
+    e.classList.toggle('active');
+    return bool = !bool;
+}
+
+// eraser feature
+const eraser = document.querySelector('.eraser');
+let isErased = false;
+
+eraser.addEventListener('click', (e) => {
+    isErased = toggleBtn(isErased, e.target);
 });
