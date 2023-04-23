@@ -3,24 +3,27 @@ const container = document.querySelector('.container');
 // obtain the grid size
 const gridRange = document.getElementById('gridSize');
 
-// update the browser to show which grid size they choose
-function updateLabel(e) {
-    const gridLabel = document.querySelector('label[for="grid-size"]');
-    gridLabel.innerHTML = `${e.value} x ${e.value}`;
-}
+// obtain the color 
+const colorChosen = document.querySelector('#color');
+const defaultMood = document.querySelector('.default');
+let currentColor = colorChosen.value;
+let isDefault = false;
 
-// set the initial grid size to 16 x 16
-createGrid(gridRange);
-updateLabel(gridRange);
+// if rainbow mood is chosen
+const rainbow = document.querySelector('.rainbow');
+let isRainbow = false;
+let hue= 0;
 
-gridRange.addEventListener('mousemove', (e) => {
-    updateLabel(e.target);
-});
+// active border of the grid
+const border = document.querySelector('.grid-border');
+let isBorder = false;
 
-gridRange.addEventListener('change', (e) => {
-    updateLabel(e.target);
-    createGrid(e.target);
-});
+// clear feature
+const clear = document.querySelector('.clear');
+
+// eraser feature
+const eraser = document.querySelector('.eraser');
+let isErased = false;
 
 // create the grid
 function createGrid(e){
@@ -42,36 +45,7 @@ function createGrid(e){
     draw();
 }
 
-
-// obtain the color 
-const colorChosen = document.querySelector('#color');
-const defaultMood = document.querySelector('.default');
-let currentColor = colorChosen.value;
-let isDefault = false;
-
-colorChosen.addEventListener('change', (e) => {
-    currentColor = e.target.value;
-});
-
-defaultMood.addEventListener('click', (e) => {
-    isDefault = toggleBtn(isDefault, e.target);
-    currentColor = '#000000';
-});
-
-
-// if rainbow mood is chosen
-const rainbow = document.querySelector('.rainbow');
-let isRainbow = false;
-let hue= 0;
-
-rainbow.addEventListener('click', (e) => {
-    isRainbow = toggleBtn(isRainbow, e.target);
-    if (isErased && isRainbow) {
-        isErased = false;
-        eraser.classList.toggle('active');
-    }
-});
-
+// get the hue for rainbow mood to create different color
 function getRainbowColor(hue) {
     return `hsl(${hue}, 100%, 50%)`;
 }
@@ -115,9 +89,47 @@ function draw() {
     });
 }
 
-// active border of the grid
-const border = document.querySelector('.grid-border');
-let isBorder = false;
+// update the browser to show which grid size they choose
+function updateLabel(e) {
+    const gridLabel = document.querySelector('label[for="grid-size"]');
+    gridLabel.innerHTML = `${e.value} x ${e.value}`;
+}
+
+// trigger active button
+function toggleBtn(bool, e) {
+    e.classList.toggle('active');
+    return bool = !bool;
+}
+
+// set the initial grid size to 16 x 16
+createGrid(gridRange);
+updateLabel(gridRange);
+
+gridRange.addEventListener('mousemove', (e) => {
+    updateLabel(e.target);
+});
+
+gridRange.addEventListener('change', (e) => {
+    updateLabel(e.target);
+    createGrid(e.target);
+});
+
+colorChosen.addEventListener('change', (e) => {
+    currentColor = e.target.value;
+});
+
+// INCOMPLETED
+defaultMood.addEventListener('click', (e) => {
+    isDefault = toggleBtn(isDefault, e.target);
+    currentColor = '#000000';
+});
+
+rainbow.addEventListener('click', (e) => {
+    isRainbow = toggleBtn(isRainbow, e.target);
+    if (isErased && isRainbow) {
+        isErased = toggleBtn(isErased, eraser);
+    }
+});
 
 border.addEventListener('click', (e) => {
     isBorder = toggleBtn(isBorder, e.target)
@@ -131,8 +143,6 @@ border.addEventListener('click', (e) => {
     });
 });
 
-// clear feature
-const clear = document.querySelector('.clear');
 
 clear.addEventListener('click', () => {
     const grids = document.querySelectorAll('.grid');
@@ -141,15 +151,7 @@ clear.addEventListener('click', () => {
     });
 });
 
-function toggleBtn(bool, e) {
-    e.classList.toggle('active');
-    return bool = !bool;
-}
-
-// eraser feature
-const eraser = document.querySelector('.eraser');
-let isErased = false;
-
 eraser.addEventListener('click', (e) => {
     isErased = toggleBtn(isErased, e.target);
 });
+
