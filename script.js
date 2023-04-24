@@ -7,7 +7,7 @@ const gridRange = document.getElementById('gridSize');
 const colorChosen = document.querySelector('#color');
 const defaultMood = document.querySelector('.default');
 let currentColor = colorChosen.value;
-let isDefault = false;
+let isDefault = true;
 
 // if rainbow mood is chosen
 const rainbow = document.querySelector('.rainbow');
@@ -61,8 +61,11 @@ function draw() {
             isDrawing = true;
             if (isRainbow) {
                 e.target.style.backgroundColor = getRainbowColor(hue);
-            } else {
+            } 
+            else if (isDefault) {
                 e.target.style.backgroundColor = currentColor;
+            } else {
+                e.target.style.backgroundColor = '';
             }
             if (isErased) {
                 e.target.style.backgroundColor = '';
@@ -77,9 +80,12 @@ function draw() {
             if (isDrawing) {
                 if (isRainbow) {
                     e.target.style.backgroundColor = getRainbowColor(hue);
-                    hue = (hue + 10) % 360;
-                } else {
+                    hue = (hue + 5) % 360;
+                } 
+                else if (isDefault) {
                     e.target.style.backgroundColor = currentColor;
+                } else {
+                    e.target.style.backgroundColor = '';
                 }
                 if (isErased) {
                     e.target.style.backgroundColor = '';
@@ -114,20 +120,29 @@ gridRange.addEventListener('change', (e) => {
     createGrid(e.target);
 });
 
+// minor bug for default and color mood
 colorChosen.addEventListener('change', (e) => {
     currentColor = e.target.value;
 });
 
-// INCOMPLETED
 defaultMood.addEventListener('click', (e) => {
     isDefault = toggleBtn(isDefault, e.target);
     currentColor = '#000000';
+    if (isRainbow) {
+        isRainbow = toggleBtn(isRainbow, rainbow);
+    }
+    if (isErased) {
+        isErased = toggleBtn(isErased, eraser);
+    }
 });
 
 rainbow.addEventListener('click', (e) => {
     isRainbow = toggleBtn(isRainbow, e.target);
     if (isErased && isRainbow) {
         isErased = toggleBtn(isErased, eraser);
+    }
+    if (isDefault) {
+        isDefault = toggleBtn(isDefault, defaultMood);
     }
 });
 
@@ -143,7 +158,6 @@ border.addEventListener('click', (e) => {
     });
 });
 
-
 clear.addEventListener('click', () => {
     const grids = document.querySelectorAll('.grid');
     grids.forEach(grid => {
@@ -153,5 +167,11 @@ clear.addEventListener('click', () => {
 
 eraser.addEventListener('click', (e) => {
     isErased = toggleBtn(isErased, e.target);
+    if (isRainbow && isErased) {
+        isRainbow = toggleBtn(isRainbow, rainbow);
+    }
+    if (isDefault) {
+        isDefault = toggleBtn(isDefault, defaultMood);
+    }
 });
 
