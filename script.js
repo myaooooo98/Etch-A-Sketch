@@ -1,98 +1,102 @@
-const container = document.querySelector('.container');
-
-// obtain the grid size
+const gridContainer = document.querySelector('.grid-container');
 const gridRange = document.getElementById('gridSize');
-
-// obtain the color 
-const colorChosen = document.querySelector('#color');
-const defaultMood = document.querySelector('.default');
-let currentColor = colorChosen.value;
-let isDefault = true;
-
-// if rainbow mood is chosen
-const rainbow = document.querySelector('.rainbow');
-let isRainbow = false;
-let hue= 0;
-
-// active border of the grid
+const colorMode = document.querySelector('#color');
+const defaultMode = document.querySelector('.default');
+const rainbowMode = document.querySelector('.rainbow');
 const border = document.querySelector('.grid-border');
-let isBorder = false;
-
-// clear feature
 const clear = document.querySelector('.clear');
+const eraserMode = document.querySelector('.eraser');
+const modeBtn = document.querySelectorAll('[data-mode]');
+const rulerContainer = document.querySelector('.ruler-container');
+const rulerBtn = document.querySelector('.rulerBtn');
 
-// eraser feature
-const eraser = document.querySelector('.eraser');
-let isErased = false;
+const MODES = {
+    DEFAULT: defaultMode.dataset.mode,
+    COLOR: colorMode.dataset.mode,
+    RAINBOW: rainbowMode.dataset.mode,
+    ERASER: eraserMode.dataset.mode
+};
+
+let currentMode = MODES.DEFAULT;
+let currentColor = colorMode.value;
+let isDrawing = false;
+let isBorder = false;
+let hue= 0;
 
 // create the grid
 function createGrid(e){
-    container.innerHTML = '';
-    for (let i = 0; container.childElementCount < e.value * e.value; i++){
+    gridContainer.innerHTML = '';
+
+    const gridSize = e.value;
+    const gridWidth = `${gridContainer.clientWidth / gridSize}px`;   // clientWidth = size of content, offsetWidth = size of content + border
+    const gridHeight = `${gridContainer.clientHeight / gridSize}px`;
+
+    for (let i = 0; gridContainer.childElementCount < gridSize * gridSize; i++){
         // create the div for grid
-        let grid = document.createElement('div');
+        const grid = document.createElement('div');
         grid.classList.add('grid');
 
         // set the height and width
-        grid.style.width = `${container.clientWidth / e.value}px`;  // clientWidth = size of content, offsetWidth = size of content + border
-        grid.style.height = `${container.clientHeight / e.value}px`;
+        grid.style.width = gridWidth; 
+        grid.style.height = gridHeight;
 
-        // insert to the div container
-        container.appendChild(grid);
+        // insert to the div gridContainer
+        gridContainer.appendChild(grid);
     }
 
-    // call the draw function
-    draw();
+    // create ruler reading
+    createRuler(e)
+
+    // drawing when mousedown and mousemove using event delegation
+    gridContainer.addEventListener('mousedown', handleMouseDown);
+    gridContainer.addEventListener('mouseup', handleMouseUp);
+    gridContainer.addEventListener('mousemove', handleMouseMove);
 }
 
-// get the hue for rainbow mood to create different color
+function handleMouseDown(e) {
+    if (!e.target.matches('.grid')) return;
+
+    // always be true when the mousedown
+    isDrawing = true;
+    draw(e.target);
+}
+
+function handleMouseUp() {
+    isDrawing = false;
+}
+
+function handleMouseMove(e) {
+    if (!e.target.matches('.grid')) return;
+    
+    // only draw when the mousedown
+    if (isDrawing) {
+        draw(e.target);
+    }
+}
+
+// get the hue for rainbowMode to create different color
 function getRainbowColor(hue) {
     return `hsl(${hue}, 100%, 50%)`;
 }
 
-// when the grid is click, add color to it
-function draw() {
-    const grids = document.querySelectorAll('.grid');
-    let isDrawing = false;
-
-    grids.forEach(grid => {
-        // when mousedown, start to color the grid
-        grid.addEventListener('mousedown', (e) => {
-            isDrawing = true;
-            if (isRainbow) {
-                e.target.style.backgroundColor = getRainbowColor(hue);
-            } 
-            else if (isDefault) {
-                e.target.style.backgroundColor = currentColor;
-            } else {
-                e.target.style.backgroundColor = '';
-            }
-            if (isErased) {
-                e.target.style.backgroundColor = '';
-            }
-        });
+// when the grid is click, add color to it based on the mode
+function draw(grid) {
+    if (currentMode === MODES.DEFAULT) {
+        grid.style.backgroundColor = defaultMode.value;
+    } 
+    else if (currentMode === MODES.RAINBOW) {
+        grid.style.backgroundColor = getRainbowColor(hue);
+        // keep update the hue so that it will create a rainbow color effect
+        hue = (hue + 5) % 360;
+    }
+    else if (currentMode === MODES.COLOR) {
+        grid.style.backgroundColor = currentColor;
+    }
     
-        // stop to color when mouse up
-        grid.addEventListener('mouseup', () => isDrawing = false);
-    
-        // change the color of grid when mouse hover to the div and mousedown
-        grid.addEventListener('mousemove', (e) => {
-            if (isDrawing) {
-                if (isRainbow) {
-                    e.target.style.backgroundColor = getRainbowColor(hue);
-                    hue = (hue + 5) % 360;
-                } 
-                else if (isDefault) {
-                    e.target.style.backgroundColor = currentColor;
-                } else {
-                    e.target.style.backgroundColor = '';
-                }
-                if (isErased) {
-                    e.target.style.backgroundColor = '';
-                }
-            }
-        });
-    });
+    // remove the color when eraser mode is on
+    if (currentMode === MODES.ERASER) {
+        grid.style.backgroundColor = '';
+    }
 }
 
 // update the browser to show which grid size they choose
@@ -101,10 +105,45 @@ function updateLabel(e) {
     gridLabel.innerHTML = `${e.value} x ${e.value}`;
 }
 
-// trigger active button
-function toggleBtn(bool, e) {
-    e.classList.toggle('active');
-    return bool = !bool;
+// show the button where the mode is triggered
+function handleClick(e) {
+    modeBtn.forEach(button => {
+        if (button !== e.target) {
+            button.classList.remove('active');
+        }
+    });
+
+    // add to the clicked button
+    e.target.classList.add('active');
+}
+
+// create ruler for the grid
+function createRuler(e) {
+    rulerContainer.innerHTML = '';
+
+    // horizontal reading
+    let xsteps = e.value <= 24 ? 2 : 5;
+    for (let i = 0; i < e.value; i+=xsteps) {
+        const reading = document.createElement('div');
+        reading.classList.add('ruler');
+        reading.classList.add('ruler-horizontal');
+        reading.innerHTML = i;
+        reading.style.width = `${rulerContainer.clientWidth / e.value}px`;
+        rulerContainer.appendChild(reading);
+    }
+
+    // horizontal reading
+    let ysteps = e.value <= 24 ? 2 : 5;
+    for (let i = ysteps; i < e.value; i+=ysteps) {
+        const reading = document.createElement('div');
+        reading.classList.add('ruler');
+        reading.classList.add('ruler-vertical');
+        reading.innerHTML = i;
+        reading.style.height = `${rulerContainer.clientHeight / e.value}px`;
+        rulerContainer.appendChild(reading);
+    }
+
+    rulerContainer.style.visibility = "hidden"; 
 }
 
 // set the initial grid size to 16 x 16
@@ -115,49 +154,41 @@ gridRange.addEventListener('mousemove', (e) => {
     updateLabel(e.target);
 });
 
+// if the grid size is changing to value other than 16 x 16
 gridRange.addEventListener('change', (e) => {
     updateLabel(e.target);
     createGrid(e.target);
 });
 
-// minor bug for default and color mood
-colorChosen.addEventListener('change', (e) => {
+// when other color is choosen
+colorMode.addEventListener('change', (e) => {
+    currentMode = MODES.COLOR;
     currentColor = e.target.value;
 });
 
-defaultMood.addEventListener('click', (e) => {
-    isDefault = toggleBtn(isDefault, e.target);
-    currentColor = '#000000';
-    if (isRainbow) {
-        isRainbow = toggleBtn(isRainbow, rainbow);
-    }
-    if (isErased) {
-        isErased = toggleBtn(isErased, eraser);
-    }
+// the default color 
+defaultMode.addEventListener('click', (e) => {
+    currentMode = MODES.DEFAULT;
+    currentColor = defaultMode.value;
 });
 
-rainbow.addEventListener('click', (e) => {
-    isRainbow = toggleBtn(isRainbow, e.target);
-    if (isErased && isRainbow) {
-        isErased = toggleBtn(isErased, eraser);
-    }
-    if (isDefault) {
-        isDefault = toggleBtn(isDefault, defaultMood);
-    }
+// rainbow mode
+rainbowMode.addEventListener('click', (e) => {
+    currentMode = MODES.RAINBOW;
 });
 
+// when border are toggled
 border.addEventListener('click', (e) => {
-    isBorder = toggleBtn(isBorder, e.target)
+    isBorder = !isBorder;
     const grids = document.querySelectorAll('.grid');
     grids.forEach(grid => {
-        if (isBorder) {
-            grid.classList.add('border');
-        } else {
-            grid.classList.remove('border');
-        }
+        // add 'border' to the grid when isBorder is true
+        grid.classList.toggle('border', isBorder);
     });
+    border.classList.toggle('active', isBorder);
 });
 
+// remove color for all the grid
 clear.addEventListener('click', () => {
     const grids = document.querySelectorAll('.grid');
     grids.forEach(grid => {
@@ -165,13 +196,16 @@ clear.addEventListener('click', () => {
     });
 });
 
-eraser.addEventListener('click', (e) => {
-    isErased = toggleBtn(isErased, e.target);
-    if (isRainbow && isErased) {
-        isRainbow = toggleBtn(isRainbow, rainbow);
-    }
-    if (isDefault) {
-        isDefault = toggleBtn(isDefault, defaultMood);
-    }
+// when eraser button is clicked, eraser mode triggered
+eraserMode.addEventListener('click', (e) => {
+    currentMode = MODES.ERASER;
 });
 
+modeBtn.forEach(button => {
+    button.addEventListener('click', handleClick);
+});
+
+// INCOMPLETE
+rulerBtn.addEventListener('click', (e) => {
+    rulerContainer.style.visibility = "visible";
+})

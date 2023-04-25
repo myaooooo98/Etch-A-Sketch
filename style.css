@@ -9,7 +9,7 @@
     /* if border-box means the width and height = content + border */
 }
 
-.container {
+.grid-container {
     display: flex;
     flex-wrap: wrap;
     width: var(--size);
@@ -19,4 +19,8 @@
 
 .border {
     border: 0.1px solid lightgrey;
+}
+
+.active {
+    background-color: red;
 }
