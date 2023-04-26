@@ -7,8 +7,6 @@ const border = document.querySelector('.grid-border');
 const clear = document.querySelector('.clear');
 const eraserMode = document.querySelector('.eraser');
 const modeBtn = document.querySelectorAll('[data-mode]');
-const rulerContainer = document.querySelector('.ruler-container');
-const rulerBtn = document.querySelector('.rulerBtn');
 
 const MODES = {
     DEFAULT: defaultMode.dataset.mode,
@@ -43,9 +41,6 @@ function createGrid(e){
         // insert to the div gridContainer
         gridContainer.appendChild(grid);
     }
-
-    // create ruler reading
-    createRuler(e)
 
     // drawing when mousedown and mousemove using event delegation
     gridContainer.addEventListener('mousedown', handleMouseDown);
@@ -117,35 +112,6 @@ function handleClick(e) {
     e.target.classList.add('active');
 }
 
-// create ruler for the grid
-function createRuler(e) {
-    rulerContainer.innerHTML = '';
-
-    // horizontal reading
-    let xsteps = e.value <= 24 ? 2 : 5;
-    for (let i = 0; i < e.value; i+=xsteps) {
-        const reading = document.createElement('div');
-        reading.classList.add('ruler');
-        reading.classList.add('ruler-horizontal');
-        reading.innerHTML = i;
-        reading.style.width = `${rulerContainer.clientWidth / e.value}px`;
-        rulerContainer.appendChild(reading);
-    }
-
-    // horizontal reading
-    let ysteps = e.value <= 24 ? 2 : 5;
-    for (let i = ysteps; i < e.value; i+=ysteps) {
-        const reading = document.createElement('div');
-        reading.classList.add('ruler');
-        reading.classList.add('ruler-vertical');
-        reading.innerHTML = i;
-        reading.style.height = `${rulerContainer.clientHeight / e.value}px`;
-        rulerContainer.appendChild(reading);
-    }
-
-    rulerContainer.style.visibility = "hidden"; 
-}
-
 // set the initial grid size to 16 x 16
 createGrid(gridRange);
 updateLabel(gridRange);
@@ -204,8 +170,3 @@ eraserMode.addEventListener('click', (e) => {
 modeBtn.forEach(button => {
     button.addEventListener('click', handleClick);
 });
-
-// INCOMPLETE
-rulerBtn.addEventListener('click', (e) => {
-    rulerContainer.style.visibility = "visible";
-})

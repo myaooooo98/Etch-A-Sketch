@@ -1,5 +1,5 @@
 :root {
-    --size: 500px;
+    --size: 550px;
 }
 
 * {
@@ -9,7 +9,35 @@
     /* if border-box means the width and height = content + border */
 }
 
-.grid-container {
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+h1.title {
+    margin: 30px;
+}
+
+div.content {
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    width: calc(var(--size) + 300px);
+    height: 70vh;
+    gap: 50px;
+    border: 1px solid black;
+}
+
+div.features {
+    background-color: grey;
+    height: 70vh;
+}
+
+div.grid-container {
     display: flex;
     flex-wrap: wrap;
     width: var(--size);
@@ -23,4 +51,9 @@
 
 .active {
     background-color: red;
+}
+
+div.mode, div.grid-tools {
+    display: flex;
+    flex-direction: column;
 }

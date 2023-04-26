@@ -9,28 +9,28 @@
     <title>Etch-A-Sketch</title>
 </head>
 <body>
-    <div>
-        <div class="grid-size">
-            <input type="range" id="gridSize" name="grid-size" min="1" max="64" value="16">
-            <label for="grid-size"></label>
+    <h1 class="title">Etch-A-Sketch</h1>
+    <div class="content">
+        <div class="features">
+            <div class="grid-size">
+                <input type="range" id="gridSize" name="grid-size" min="1" max="64" value="16">
+                <label for="grid-size"></label>
+            </div>
+            <div class="mode">
+                <input type="color" id="color" value="#000000" data-mode="color">
+                <label for="color">Color</label>
+                <button class="default active" value="#000000" data-mode="default">Default Mood</button>
+                <button class="rainbow" data-mode="rainbow">Rainbow Mode</button>
+                <button class="eraser" data-mode="eraser">Eraser</button>
+            </div>
+            <div class="grid-tools">
+                <button class="grid-border">Show Grid</button>
+                <button class="clear">Clear</button>
+            </div>
         </div>
-        <div class="mode">
-            <div></div>
-            <input type="color" id="color" value="#000000" data-mode="color">
-            <label for="color">Color</label>
-            <button class="default active" value="#000000" data-mode="default">Default Mood</button>
-            <button class="rainbow" data-mode="rainbow">Rainbow Mode</button>
-            <button class="eraser" data-mode="eraser">Eraser</button>
+        <div class="container">
+            <div class="grid-container"></div>
         </div>
-        <div class="grid-tools">
-            <button class="grid-border">Show Grid</button>
-            <button class="rulerBtn">Show Ruler</button>
-            <button class="clear">Clear</button>
-        </div>
-    </div>
-    <div class="container">
-        <div class="grid-container"></div>
-        <div class="ruler-container"></div>
     </div>
 </body>
 </html>
