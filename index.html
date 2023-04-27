@@ -11,9 +11,12 @@
 <body>
     <h1 class="title">Etch-A-Sketch</h1>
     <div class="content">
+        <div class="container">
+            <div class="grid-container"></div>
+        </div>
         <div class="features">
             <div class="grid-size">
-                <input type="range" id="gridSize" name="grid-size" min="1" max="64" value="16">
+                <input type="range" id="gridSize" name="grid-size" min="1" max="120" value="16">
                 <label for="grid-size"></label>
             </div>
             <div class="mode">
@@ -28,8 +31,16 @@
                 <button class="clear">Clear</button>
             </div>
         </div>
-        <div class="container">
-            <div class="grid-container"></div>
+    </div>
+    <div class="footer">
+        <p>Designed by Lee Min Yao</p>
+        <button class="trigger" id="openModal">Resources</button>
+        <div class="modal" id="resourcesModal">
+            <div class="resources">
+                <span id="close">&times;</span>
+                <p><a href="https://www.freepik.com/free-vector/pastel-coloured-background-with-square-design_33782978.htm#query=pixel%20background&position=6&from_view=search&track=robertav1_2_sidr">Image by kjpargeter</a> on Freepik</p>
+                <p><a href="https://fonts.google.com/specimen/Press+Start+2P?query=press">Press Start 2P</a> on Google Font</p>
+            </div>
         </div>
     </div>
 </body>

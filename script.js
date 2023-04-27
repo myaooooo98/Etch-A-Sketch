@@ -7,6 +7,9 @@ const border = document.querySelector('.grid-border');
 const clear = document.querySelector('.clear');
 const eraserMode = document.querySelector('.eraser');
 const modeBtn = document.querySelectorAll('[data-mode]');
+const resourcesModal = document.querySelector("#resourcesModal");
+const triggerBtn = document.querySelector(".trigger");
+const closeBtn = document.querySelector("#close");
 
 const MODES = {
     DEFAULT: defaultMode.dataset.mode,
@@ -112,6 +115,22 @@ function handleClick(e) {
     e.target.classList.add('active');
 }
 
+// for resources modal
+function toggleModal() {
+    resourcesModal.classList.toggle("showModal");
+}
+
+function windowOnClick(event) {
+    if (event.target === resourcesModal) {
+        toggleModal();
+    }
+}
+
+// reload the browser
+function refresh() {
+    window.location.reload();
+}
+
 // set the initial grid size to 16 x 16
 createGrid(gridRange);
 updateLabel(gridRange);
@@ -170,3 +189,8 @@ eraserMode.addEventListener('click', (e) => {
 modeBtn.forEach(button => {
     button.addEventListener('click', handleClick);
 });
+
+// for resources modal
+triggerBtn.addEventListener("click", toggleModal);
+closeBtn.addEventListener("click", toggleModal);
+window.addEventListener("click", windowOnClick);
