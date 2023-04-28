@@ -53,6 +53,7 @@ div.grid-container {
     flex-wrap: wrap;
     width: var(--size);
     height: var(--size);
+    cursor: pointer;
 }
 
 div.grid:hover {
@@ -64,7 +65,7 @@ div.grid:hover {
 }
 
 .active {
-    background-color: red;
+    background: rgb(161, 192, 231);
 }
 
 /* ------------------ grid size control ------------------ */
@@ -72,6 +73,49 @@ div.grid-size {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
+}
+
+#gridSize {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #acacac;
+    outline: none;
+    height: 8px;
+    opacity: 0.6;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    border-radius: 10px;
+    width: 100%;
+}
+
+#gridSize:hover {
+    opacity: 0.9;
+}
+
+#gridSize::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: rgb(255, 174, 187);
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgb(236, 202, 208);
+}
+
+#gridSize::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: pink;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+label {
+    font-family: 'Changa', sans-serif;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 /* ------------------ color ------------------ */
@@ -159,14 +203,13 @@ div.resources{
     color: #DBC4BD;
 }
 
-#openModal, button.reset {
+#openModal, button{
     padding: 10px 50px;
     border-radius: 20px;
     border: none;
-    background-color: rgb(218, 205, 198);
 }
 
-#openModal:hover, button.reset:hover {
+#openModal:hover, button:hover{
     border: 2px solid;
     font-weight: bold;
     background-color: transparent;
