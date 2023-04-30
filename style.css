@@ -149,6 +149,17 @@ div.color {
     box-shadow: 0 0 10px;
 }
 
+/* ------------------ Mode ------------------ */
+i {
+    font-size: 35px;
+}
+
+.mode > button {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+}
+
 /* ------------------ resources modal ------------------ */
 div.modal {
     z-index: 1;
@@ -209,8 +220,8 @@ div.resources{
     color: #DBC4BD;
 }
 
-#openModal, button{
-    padding: 10px 50px;
+#openModal {
+    padding: 10px 50px !important;
     border-radius: 20px;
     border: none;
 }
