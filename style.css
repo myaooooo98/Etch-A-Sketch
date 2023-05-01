@@ -150,16 +150,30 @@ div.color {
 }
 
 /* ------------------ Mode ------------------ */
+div.mode {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
 i {
     font-size: 35px;
 }
 
-.mode > button {
-    width: 70px;
-    height: 70px;
+.modeBtn > button {
+    width: 80px;
+    height: 80px;
     border-radius: 20px;
+    cursor: pointer;
+    transition: all ease-in-out 0.01s;
 }
 
+.tools-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
 /* ------------------ resources modal ------------------ */
 div.modal {
     z-index: 1;
@@ -220,7 +234,7 @@ div.resources{
     color: #DBC4BD;
 }
 
-#openModal {
+#openModal, .grid-tools > button {
     padding: 10px 50px !important;
     border-radius: 20px;
     border: none;

@@ -25,14 +25,19 @@
                     <input type="color" id="color" value="#000000" data-mode="color">
                     <label for="color">Color</label>
                 </div>
-                <button class="default active" value="#000000" data-mode="default"><i class="fa-sharp fa-solid fa-circle" style="color: #000000;"></i></button>
-                <button class="rainbow" data-mode="rainbow"><i class="fa-solid fa-rainbow"></i></button>
-                <button class="eraser" data-mode="eraser"><i class="fa-solid fa-eraser"></i></button>
+                <div class="tools-container">
+                    <div class="modeBtn">
+                        <button class="default active" value="#000000" data-mode="default" title="Default Mode"><i class="fa-solid fa-palette" style="color: #000000;"></i></button>
+                        <button class="rainbow" data-mode="rainbow" title="Rainbow Mode"><i class="fa-solid fa-rainbow"></i></button>
+                        <button class="eraser" data-mode="eraser" title="Eraser"><i class="fa-solid fa-eraser"></i></button>
+                    </div>
+                    <div class="grid-tools">
+                        <button class="grid-border">Show Border</button>
+                        <button class="clear">Clear</button>
+                    </div>
+                </div>
             </div>
-            <div class="grid-tools">
-                <button class="grid-border"><i class="fa-solid fa-border-all"></i></button>
-                <button class="clear">Clear</button>
-            </div>
+           
         </div>
     </div>
     <div class="footer">
