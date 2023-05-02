@@ -24,6 +24,11 @@ body {
     background-repeat: no-repeat;
     overflow: scroll;
     padding: 50px;
+    font-family: 'Changa', sans-serif;
+}
+
+button {
+    font-family: 'Changa', sans-serif;
 }
 
 h1.title {
@@ -107,13 +112,13 @@ div.grid-size {
 #gridSize::-moz-range-thumb {
     width: 20px;
     height: 20px;
-    background: pink;
+    background: rgb(255, 174, 187);
     cursor: pointer;
     border-radius: 50%;
+    box-shadow: 0 0 10px rgb(236, 202, 208);
 }
 
 label {
-    font-family: 'Changa', sans-serif;
     font-size: 1.5em;
     font-weight: bold;
 }
@@ -149,7 +154,15 @@ div.color {
     box-shadow: 0 0 10px;
 }
 
-/* ------------------ Mode ------------------ */
+/* ------------------ features ------------------ */
+.tools-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+/* ------------------ Mode & tools ------------------ */
 div.mode {
     display: flex;
     gap: 10px;
@@ -166,14 +179,23 @@ i {
     border-radius: 20px;
     cursor: pointer;
     transition: all ease-in-out 0.01s;
+    border: none;
+    background-image: none;
 }
 
-.tools-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
+.modeBtn > button:hover {
+    background-image: linear-gradient(rgb(255, 174, 187), rgb(233, 229, 229));
 }
+
+div.grid-tools > button {
+    font-size: 1.1em;
+    font-weight: bold;
+    width: 160px;
+    padding: 15px 0;
+    border-radius: 20px;
+    border: none;
+}
+
 /* ------------------ resources modal ------------------ */
 div.modal {
     z-index: 1;
@@ -204,8 +226,8 @@ div.resources{
     border-radius: 20px;
     text-align: center;
     font-size: 1.4em;
-    background-color: rgb(163, 145, 140);
     color: rgb(31, 30, 29);
+    background-image: linear-gradient(rgb(255, 174, 187), rgb(233, 229, 229));
 }
 
 #close {
@@ -234,7 +256,7 @@ div.resources{
     color: #DBC4BD;
 }
 
-#openModal, .grid-tools > button {
+#openModal {
     padding: 10px 50px !important;
     border-radius: 20px;
     border: none;
