@@ -1,11 +1,11 @@
 const gridContainer = document.querySelector('.grid-container');
 const gridRange = document.getElementById('gridSize');
 const colorMode = document.querySelector('#color');
-const defaultMode = document.querySelector('.default');
-const rainbowMode = document.querySelector('.rainbow');
+const defaultMode = document.querySelector('button.default');
+const rainbowMode = document.querySelector('button.rainbow');
 const border = document.querySelector('.grid-border');
 const clear = document.querySelector('.clear');
-const eraserMode = document.querySelector('.eraser');
+const eraserMode = document.querySelector('button.eraser');
 const modeBtn = document.querySelectorAll('[data-mode]');
 const resourcesModal = document.querySelector("#resourcesModal");
 const triggerBtn = document.querySelector(".trigger");
@@ -105,14 +105,17 @@ function updateLabel(e) {
 
 // show the button where the mode is triggered
 function handleClick(e) {
+    const clickedBtn = e.target.closest('[data-mode]');
+    if (!clickedBtn) return;
+
     modeBtn.forEach(button => {
-        if (button !== e.target) {
+        if (button !== clickedBtn) {
             button.classList.remove('active');
         }
     });
 
     // add to the clicked button
-    e.target.classList.add('active');
+    clickedBtn.classList.add('active');
 }
 
 // for resources modal
